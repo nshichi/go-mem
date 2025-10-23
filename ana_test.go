@@ -4,6 +4,7 @@ import (
 	"math/rand/v2"
 	"strings"
 	"testing"
+	"time"
 	"unsafe"
 )
 
@@ -153,4 +154,29 @@ func Benchmark_mapX(b *testing.B) {
 		}
 		b.Logf("len(m) = %d", len(m))
 	}
+}
+
+type SampleStruct struct {
+	I     int
+	S     string
+	P     *int
+	Array [10]int
+	Slice []int
+	Time  time.Time
+}
+
+func Test_show_nil(t *testing.T) {
+	r := SampleStruct{}
+	r.S = "abcdefghijklmnopqrstuvwxyz"
+	r.Slice = []int{1, 2, 3, 4, 5}
+	t.Logf("sizeof(r) = %d", unsafe.Sizeof(r))
+	t.Logf("sizeof(string) = %d", unsafe.Sizeof(r.S))
+	t.Logf("sizeof(int) = %d", unsafe.Sizeof(r.I))
+	t.Logf("sizeof(pointer) = %d", unsafe.Sizeof(r.P))
+	t.Logf("sizeof([10]int) = %d", unsafe.Sizeof(r.Array))
+	t.Logf("sizeof(slice) = %d", unsafe.Sizeof(r.Slice))
+	t.Logf("sizeof(time.Time) = %d", unsafe.Sizeof(r.Time))
+
+	var p *int = nil
+	t.Logf("%p", p)
 }
