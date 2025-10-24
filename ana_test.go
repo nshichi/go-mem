@@ -8,6 +8,32 @@ import (
 	"unsafe"
 )
 
+const ABC = "abc"
+
+func Test_1(t *testing.T) {
+	s1 := "abc"
+	s2 := ABC
+	s3 := string([]rune{'a', 'b', 'c'})
+	t.Logf("%p", unsafe.StringData(s1))
+	t.Logf("%p", unsafe.StringData(s2))
+	t.Logf("%p", unsafe.StringData(s3))
+
+	t.Logf("s1 == s3 -> %v", s1 == s3)
+}
+
+func Benchmark1_1(b *testing.B) {
+	for b.Loop() {
+		s1 := "abc"
+		s2 := ABC
+		s3 := string([]rune{'a', 'b', 'c'})
+		b.Logf("%p", unsafe.StringData(s1))
+		b.Logf("%p", unsafe.StringData(s2))
+		b.Logf("%p", unsafe.StringData(s3))
+
+		b.Logf("s1 == s3 -> %v", s1 == s3)
+	}
+}
+
 func Benchmark1(b *testing.B) {
 	for b.Loop() {
 		s1 := strings.Repeat("a", 1_000_000)
@@ -40,21 +66,12 @@ func Benchmark2(b *testing.B) {
 }
 
 type R struct {
-	A int
-	B int32
-	C int64
-	D float32
-	E float64
-	F int
-	G []int
-
-	P *int
-	Q int
-	R struct {
-		R1 uint
-		R2 uint
-	}
-	S string
+	I     int
+	P     *int
+	S     string
+	Array [10]int
+	Slice []string
+	Time  time.Time // struct
 }
 
 func Benchmark3(b *testing.B) {
