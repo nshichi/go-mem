@@ -14,7 +14,7 @@ func Test_int_and_pointer(t *testing.T) {
 	var p *int = &i
 
 	fmt.Printf("&i -> %p\n", &i) // 変数 i のアドレス
-	fmt.Printf("p  -> %p\n", p)  // 変数　p の値
+	fmt.Printf("p  -> %p\n", p)  // 変数 p の値
 	fmt.Printf("&p -> %p\n", &p) // 変数 p のアドレス
 }
 
@@ -23,6 +23,21 @@ func Test_nil(t *testing.T) {
 	fmt.Printf("nil -> %p\n", p)
 	fmt.Printf("nil -> %p\n", (*int)(nil))
 	fmt.Printf("nil -> %v\n", nil)
+}
+
+func Test_string2(t *testing.T) {
+	var s0 = "hello world"
+	var s1 = s0
+	fmt.Printf("s  -> %p: %s\n", unsafe.StringData(s0), s0)
+	fmt.Printf("s1 -> %p: %s\n", unsafe.StringData(s1), s1)
+
+	// fmt.Printf("&s -> %p\n", &s0)
+	// fmt.Printf("&s1 -> %p\n", &s1)
+
+	var s2 = s0[:5]
+	var s3 = s0[6:]
+	fmt.Printf("s2  -> %p: \"%s\"\n", unsafe.StringData(s2), s2)
+	fmt.Printf("s3  -> %p: \"%s\"\n", unsafe.StringData(s3), s3)
 }
 
 func Test_1(t *testing.T) {
