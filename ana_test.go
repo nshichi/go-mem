@@ -9,6 +9,7 @@ import (
 	"unsafe"
 )
 
+// 整数とポインタ
 func Test_int_and_pointer(t *testing.T) {
 	var i int = 123
 	var p *int = &i
@@ -18,6 +19,7 @@ func Test_int_and_pointer(t *testing.T) {
 	fmt.Printf("&p -> %p\n", &p) // 変数 p のアドレス
 }
 
+// nilポインタ
 func Test_nil(t *testing.T) {
 	var p *int = nil
 	fmt.Printf("nil -> %p\n", p)
@@ -78,8 +80,10 @@ func Benchmark1(b *testing.B) {
 	for b.Loop() {
 		s1 := strings.Repeat("a", 1_000_000)
 		s2 := strings.Repeat("b", 1_000_000)
-		u := s1 + s2
-		_ = u
+		// u := s1 + s2
+		_ = s1
+		_ = s2
+		// _ = u
 	}
 	// f, err := os.Open("nul")
 	// if err != nil {
@@ -88,21 +92,65 @@ func Benchmark1(b *testing.B) {
 	// fmt.Fprintf(f, "%s", u)
 }
 
-func Benchmark2(b *testing.B) {
+// 文字列継ぎ足し
+func Benchmark_string_append(b *testing.B) {
 	for b.Loop() {
-		const s1 = "strings.Repeat(\"a\", 1_000_000)"
-		// const s2 = "strings.Repeat(\"b\", 1_000_000)"
-		var u = ""
-		for range 100_000 {
-			u = u + s1
+		var s = ""
+		for range 1_000_000 {
+			s = s + "0123456789"
 		}
-		_ = u
 	}
-	// f, err := os.Open("nul")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Fprintf(f, "%s", u)
+}
+
+// 文字列継ぎ足し strings.Join()版
+func Benchmark_string_append2(b *testing.B) {
+	for b.Loop() {
+		var ss = make([]string, 0, 1_000_000)
+		for range 1_000_000 {
+			ss = append(ss, "0123456789")
+		}
+		_ = strings.Join(ss, "")
+	}
+}
+
+// スライス コピー
+func Test_copy_slice(t *testing.T) {
+	a1 := []int{1, 1, 1}
+	a2 := a1
+	a1[1] = 999
+	t.Logf("a1 -> %v", a1)
+	t.Logf("a2 -> %v", a2)
+}
+
+// スライス 関数渡し
+func Test_arg_slice(t *testing.T) {
+	a1 := []int{1, 1, 1}
+	func(a2 []int) {
+		a2[1] = 999
+
+		t.Logf("a1 -> %v", a1)
+		t.Logf("a2 -> %v", a2)
+	}(a1)
+}
+
+// 配列 コピー
+func Test_copy_array(t *testing.T) {
+	a1 := [3]int{1, 1, 1}
+	a2 := a1
+	a1[1] = 999
+	t.Logf("a1 -> %v", a1)
+	t.Logf("a2 -> %v", a2)
+}
+
+// 配列 関数コピー渡し
+func Test_arg_array(t *testing.T) {
+	a1 := [3]int{1, 1, 1}
+	func(a2 [3]int) {
+		a2[1] = 999
+
+		t.Logf("a1 -> %v", a1)
+		t.Logf("a2 -> %v", a2)
+	}(a1)
 }
 
 type R struct {
