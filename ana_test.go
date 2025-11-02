@@ -42,7 +42,8 @@ func Test_string2(t *testing.T) {
 	fmt.Printf("s3  -> %p: \"%s\"\n", unsafe.StringData(s3), s3)
 }
 
-func Test_1(t *testing.T) {
+// 文字列のコピー、スライス
+func Test_copy_string(t *testing.T) {
 	s1 := "abc"
 	s2 := "abc"
 	s3 := string([]rune{'a', 'b', 'c'})
@@ -57,61 +58,46 @@ func Test_1(t *testing.T) {
 	t.Logf("address of h \"%s\"; %p", h, unsafe.StringData(h))
 	t.Logf("address of w \"%s\"; %p", w, unsafe.StringData(w))
 
-	h = "hello"
-	t.Logf("\"%s\" %p", h, unsafe.StringData(h))
-	h += " world"
-	t.Logf("\"%s\" %p", h, unsafe.StringData(h))
+	// h = "hello"
+	// t.Logf("\"%s\" %p", h, unsafe.StringData(h))
+	// h += " world"
+	// t.Logf("\"%s\" %p", h, unsafe.StringData(h))
 }
 
-func Benchmark1_1(b *testing.B) {
-	for b.Loop() {
-		s1 := "abc"
-		s2 := "abc"
-		s3 := string([]rune{'a', 'b', 'c'})
-		b.Logf("%p", unsafe.StringData(s1))
-		b.Logf("%p", unsafe.StringData(s2))
-		b.Logf("%p", unsafe.StringData(s3))
-
-		b.Logf("s1 == s3 -> %v", s1 == s3)
-	}
-}
-
-func Benchmark1(b *testing.B) {
-	for b.Loop() {
-		s1 := strings.Repeat("a", 1_000_000)
-		s2 := strings.Repeat("b", 1_000_000)
-		// u := s1 + s2
-		_ = s1
-		_ = s2
-		// _ = u
-	}
-	// f, err := os.Open("nul")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Fprintf(f, "%s", u)
-}
+const (
+	STRING_APPEND_TIMES = 100_000
+)
 
 // 文字列継ぎ足し
 func Benchmark_string_append(b *testing.B) {
 	for b.Loop() {
 		var s = ""
-		for range 1_000_000 {
+		for range STRING_APPEND_TIMES {
 			s = s + "0123456789"
 		}
+
+		b.Logf("len(s) -> %d", len(s))
+		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
+			b.Errorf("len(s) mismatched")
+		}
 	}
-}
+} /* 1        2,993,980,000 ns/op        50,399,820,832 B/op          101,330 allocs/op */
 
 // 文字列継ぎ足し strings.Join()版
 func Benchmark_string_append2(b *testing.B) {
 	for b.Loop() {
-		var ss = make([]string, 0, 1_000_000)
-		for range 1_000_000 {
+		var ss = make([]string, 0)
+		for range STRING_APPEND_TIMES {
 			ss = append(ss, "0123456789")
 		}
-		_ = strings.Join(ss, "")
+		s := strings.Join(ss, "")
+
+		b.Logf("len(s) -> %d", len(s))
+		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
+			b.Errorf("len(s) mismatched")
+		}
 	}
-}
+} /*  362           3,210,559 ns/op         9,934,744 B/op         46 allocs/op */
 
 // スライス コピー
 func Test_copy_slice(t *testing.T) {
