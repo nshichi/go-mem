@@ -1,0 +1,15 @@
+$ go test -bench . -benchmem -run=^$
+goos: windows
+goarch: amd64
+pkg: go-mem/ana
+cpu: AMD Ryzen 7 7800X3D 8-Core Processor
+Benchmark_mapS-16                     10         101397360 ns/op        111600099 B/op      8200 allocs/op
+Benchmark_mapI-16                     20          54675170 ns/op        75524045 B/op       8199 allocs/op
+Benchmark_mapX-16                     15          73726307 ns/op        50396465 B/op       8197 allocs/op
+Benchmark_string_append-16             1        3157750200 ns/op        50399844168 B/op          101872 allocs/op
+Benchmark_string_append2-16          310           3564953 ns/op         9931139 B/op         29 allocs/op
+Benchmark3-16                      17732             66877 ns/op          575777 B/op         12 allocs/op
+--- BENCH: Benchmark3-16
+    struct_test.go:19: 160 bytes
+PASS
+ok      go-mem/ana      9.239s
