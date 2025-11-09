@@ -7,12 +7,12 @@ import (
 )
 
 type Result struct {
-	Name        string // ベンチマーク名 (例: Benchmark_mapS)
-	CPUNum      int    // CPU数 (例: 16)
-	Iters       int    // 実行回数 (b.N)
-	NsPerOp     int    // 1操作あたりのナノ秒 (ns/op)
-	BytesPerOp  int    // 1操作あたりのメモリ確保量 (B/op)
-	AllocsPerOp int    // 1操作あたりのアロケーション回数 (allocs/op)
+	Name        string
+	CPUNum      int
+	Iters       int
+	NsPerOp     int
+	BytesPerOp  int
+	AllocsPerOp int
 }
 
 type SystemInfo struct {

@@ -13,3 +13,9 @@ Benchmark3-16                      17732             66877 ns/op          575777
     struct_test.go:19: 160 bytes
 PASS
 ok      go-mem/ana      9.239s
+
+
+
+アセンブリ確認
+
+$ go build -gcflags='-S' str1.go 2> str1.lst

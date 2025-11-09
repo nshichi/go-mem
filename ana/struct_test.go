@@ -7,12 +7,29 @@ import (
 )
 
 type R struct {
-	I     int
-	P     *int
-	S     string
-	Array [10]int
-	Slice []string
-	Time  time.Time // struct
+	Int     int
+	Pointer *int
+	String  string
+	Array   [10]int
+	Slice   []string
+	Time    time.Time // struct
+	// Float64 float64
+	// Bool    bool
+	// Rune    rune
+	// Bytes   [10]byte
+	// Any     any
+	// Map     map[string]string
+}
+
+func Test_struct_size(t *testing.T) {
+	var r R
+	t.Logf("r         -> %p, %d", &r, unsafe.Sizeof(r))
+	t.Logf("r.Int     -> %p, %d", &r.Int, unsafe.Sizeof(r.Int))
+	t.Logf("r.Pointer -> %p, %d", &r.Pointer, unsafe.Sizeof(r.Pointer))
+	t.Logf("r.String  -> %p, %d", &r.String, unsafe.Sizeof(r.String))
+	t.Logf("r.Array   -> %p, %d", &r.Array, unsafe.Sizeof(r.Array))
+	t.Logf("r.Slice   -> %p, %d", &r.Slice, unsafe.Sizeof(r.Slice))
+	t.Logf("r.Time    -> %p, %d", &r.Time, unsafe.Sizeof(r.Time))
 }
 
 func Benchmark3(b *testing.B) {

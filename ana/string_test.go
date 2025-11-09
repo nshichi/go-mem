@@ -78,3 +78,57 @@ func Benchmark_string_append2(b *testing.B) {
 		}
 	}
 }
+
+func compare1(s1, s2 string) bool {
+	return s1 == s2
+}
+
+func Benchmark_string_compare2(b *testing.B) {
+	s1 := strings.Repeat("A", 1_000_000)
+	s3 := strings.Repeat("A", 1_000_000)
+	// s4 := strings.Repeat("X", 1_000_000)
+
+	for b.Loop() {
+		if !compare1(s1, s3) {
+			b.Errorf("")
+		}
+	}
+}
+
+func Benchmark_string_compare1(b *testing.B) {
+	s1 := strings.Repeat("A", 1_000_000)
+	s2 := s1
+
+	for b.Loop() {
+		// if s1 != s2 {
+		if !compare1(s1, s2) {
+			b.Errorf("")
+		}
+	}
+}
+
+func Benchmark_string_compare3(b *testing.B) {
+	s1 := strings.Repeat("A", 1_000_000)
+	s2 := s1
+
+	for b.Loop() {
+		if s1 != s2 {
+			b.Errorf("")
+		}
+	}
+}
+
+func Benchmark_string_compare4(b *testing.B) {
+	s1 := strings.Repeat("A", 1_000_000)
+	ss := make([]string, 0)
+	for range b.N {
+		ss = append(ss, s1)
+	}
+	b.ResetTimer()
+
+	for i := range b.N {
+		if s1 != ss[i] {
+			b.Errorf("")
+		}
+	}
+}

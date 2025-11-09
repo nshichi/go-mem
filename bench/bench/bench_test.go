@@ -22,8 +22,8 @@ func Test_Parse(t *testing.T) {
 }
 
 type TestData struct {
-	N      int
-	Except string
+	N    int
+	Want string
 }
 
 var testData = []TestData{
@@ -42,24 +42,24 @@ var testData = []TestData{
 
 func Test_(t *testing.T) {
 	for _, test := range testData {
-		actual := FormatWithCommas(test.N)
-		if actual != test.Except {
-			t.Errorf("mismatched; %s != %s", actual, test.Except)
+		got := FormatWithCommas(test.N)
+		if got != test.Want {
+			t.Errorf("mismatched; %s != %s", got, test.Want)
 		}
 	}
 }
 
 func Benchmark_max(b *testing.B) {
 	for b.Loop() {
-		actual := FormatWithCommas(math.MaxInt)
-		_ = actual
+		got := FormatWithCommas(math.MaxInt)
+		_ = got
 	}
 }
 
 func Benchmark_zero(b *testing.B) {
 	for b.Loop() {
-		actual := FormatWithCommas(0)
-		_ = actual
+		got := FormatWithCommas(0)
+		_ = got
 	}
 }
 
@@ -74,16 +74,16 @@ func Benchmark_(b *testing.B) {
 	b.ResetTimer()
 
 	for _, test := range tests {
-		actual := FormatWithCommas(test.N)
-		_ = actual
+		got := FormatWithCommas(test.N)
+		_ = got
 	}
 }
 
 // func Test_FormatWithCommas3(t *testing.T) {
 // 	for _, d := range testData {
-// 		actual := FormatWithCommasOptimized(d.N)
-// 		if actual != d.Except {
-// 			t.Errorf("mismatched; %v != %v", actual, d.Except)
+// 		got := FormatWithCommasOptimized(d.N)
+// 		if got != d.Want {
+// 			t.Errorf("mismatched; %v != %v", got, d.Want)
 // 		}
 // 	}
 // }
