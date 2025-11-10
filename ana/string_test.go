@@ -1,6 +1,7 @@
 package ana
 
 import (
+	"encoding/hex"
 	"fmt"
 	"strings"
 	"testing"
@@ -42,6 +43,16 @@ func Test_string(t *testing.T) {
 
 	// 文字列はイミュータブル コンパイルエラー
 	// s0[5] = ' '
+
+	bb := []byte(s)
+	t.Logf("-> %s", hex.EncodeToString(bb))
+
+	x := ""
+	for i, b := range bb {
+		_ = i
+		x += fmt.Sprintf("%02X ", b)
+	}
+	t.Log(x)
 }
 
 const (
