@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"os"
 	"testing"
+	"unsafe"
 )
 
 func Test_Parse(t *testing.T) {
@@ -141,3 +142,13 @@ func Benchmark_(b *testing.B) {
 
 // 	return string(out)
 // }
+
+// struct{} のサイズ
+func Test_empty_struct(t *testing.T) {
+	var e0 struct{}
+	var e1 struct{}
+	var ea [3]struct{}
+	t.Logf("&e0, size of e0 -> %p, %d", unsafe.Pointer(&e0), unsafe.Sizeof(e0))
+	t.Logf("&e1, size of e1 -> %p, %d", unsafe.Pointer(&e1), unsafe.Sizeof(e1))
+	t.Logf("&ea, size of ea -> %p, %d", unsafe.Pointer(&ea), unsafe.Sizeof(ea))
+}
