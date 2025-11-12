@@ -1,6 +1,7 @@
 package ana
 
 import (
+	"bytes"
 	"encoding/hex"
 	"fmt"
 	"strings"
@@ -84,6 +85,49 @@ func Benchmark_string_append2(b *testing.B) {
 		s := strings.Join(ss, "")
 
 		// b.Logf("len(s) -> %d", len(s))
+		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
+			b.Errorf("len(s) mismatched")
+		}
+	}
+}
+
+// 文字列継ぎ足し append() []byte 版
+func Benchmark_string_append3(b *testing.B) {
+	for b.Loop() {
+		bb := make([]byte, 0)
+		// bb := make([]byte, 0, STRING_APPEND_TIMES*len("0123456789"))
+
+		for range STRING_APPEND_TIMES {
+			bb = append(bb, []byte("0123456789")...)
+		}
+
+		s := string(bb)
+
+		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
+			b.Errorf("len(s) mismatched")
+		}
+	}
+} /*
+Benchmark_string_append3-4           564           2,485,571 ns/op         6,249,240 B/op            33 allocs/op
+Benchmark_string_append3-4           518           2,238,573 ns/op         6,249,240 B/op            33 allocs/op
+Benchmark_string_append3-4          2520             462,681 ns/op         2,015,238 B/op             2 allocs/op
+Benchmark_string_append3-4          3318             366,419 ns/op         1,007,625 B/op             1 allocs/op
+
+Benchmark_string_append43-4          661           1,776,194 ns/op         3,104,721 B/op            16 allocs/op
+
+*/
+
+// 文字列継ぎ足し append() []byte 版
+func Benchmark_string_append43(b *testing.B) {
+	for b.Loop() {
+		var bb bytes.Buffer
+
+		for range STRING_APPEND_TIMES {
+			bb.Write([]byte("0123456789"))
+		}
+
+		s := bb.String()
+
 		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
 			b.Errorf("len(s) mismatched")
 		}
