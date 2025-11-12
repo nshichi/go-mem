@@ -58,18 +58,18 @@ func Test_string(t *testing.T) {
 
 const (
 	STRING_APPEND_TIMES = 100_000
+	SAMPLE_TEXT         = "0123456789"
 )
 
 // 文字列継ぎ足し
-func Benchmark_string_append(b *testing.B) {
+func Benchmark_string_append1(b *testing.B) {
 	for b.Loop() {
 		var s = ""
 		for range STRING_APPEND_TIMES {
-			s = s + "0123456789"
+			s = s + SAMPLE_TEXT
 		}
 
-		// b.Logf("len(s) -> %d", len(s))
-		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
+		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}
@@ -80,30 +80,46 @@ func Benchmark_string_append2(b *testing.B) {
 	for b.Loop() {
 		var ss = make([]string, 0)
 		for range STRING_APPEND_TIMES {
-			ss = append(ss, "0123456789")
+			ss = append(ss, SAMPLE_TEXT)
 		}
 		s := strings.Join(ss, "")
 
-		// b.Logf("len(s) -> %d", len(s))
-		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
+		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}
 }
 
-// 文字列継ぎ足し append() []byte 版
+// 文字列継ぎ足し append() 版
 func Benchmark_string_append3(b *testing.B) {
 	for b.Loop() {
 		bb := make([]byte, 0)
-		// bb := make([]byte, 0, STRING_APPEND_TIMES*len("0123456789"))
 
 		for range STRING_APPEND_TIMES {
-			bb = append(bb, []byte("0123456789")...)
+			bb = append(bb, []byte(SAMPLE_TEXT)...)
 		}
 
 		s := string(bb)
 
-		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
+		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
+			b.Errorf("len(s) mismatched")
+		}
+	}
+}
+
+// 文字列継ぎ足し append() あらかじめわりあて版
+func Benchmark_string_append4(b *testing.B) {
+	for b.Loop() {
+		maxBufLen := STRING_APPEND_TIMES * len(SAMPLE_TEXT)
+		bb := make([]byte, 0, maxBufLen)
+
+		for range STRING_APPEND_TIMES {
+			bb = append(bb, []byte(SAMPLE_TEXT)...)
+		}
+
+		s := string(bb)
+
+		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}
@@ -117,18 +133,18 @@ Benchmark_string_append43-4          661           1,776,194 ns/op         3,104
 
 */
 
-// 文字列継ぎ足し append() []byte 版
-func Benchmark_string_append43(b *testing.B) {
+// 文字列継ぎ足し bytes.Buffer 版
+func Benchmark_string_append5(b *testing.B) {
 	for b.Loop() {
 		var bb bytes.Buffer
 
 		for range STRING_APPEND_TIMES {
-			bb.Write([]byte("0123456789"))
+			bb.Write([]byte(SAMPLE_TEXT))
 		}
 
 		s := bb.String()
 
-		if len(s) != STRING_APPEND_TIMES*len("0123456789") {
+		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}

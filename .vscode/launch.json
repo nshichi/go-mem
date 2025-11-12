@@ -10,7 +10,8 @@
             "request": "launch",
             "mode": "auto",
             "program": "${fileDirname}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": ["\\\\TP-Share\\G\\DCIM\\2025\\1112"]
         }
     ]
 }

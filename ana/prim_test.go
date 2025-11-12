@@ -12,7 +12,7 @@ func Test_int_and_pointer(t *testing.T) {
 	var p *int = &i
 
 	fmt.Printf("&i -> %p\n", &i) // 変数 i のアドレス
-	fmt.Printf("p  -> %p\n", p)  // 変数 p の値
+	fmt.Printf(" p -> %p\n", p)  // 変数 p の値
 	fmt.Printf("&p -> %p\n", &p) // 変数 p のアドレス
 }
 
@@ -22,6 +22,9 @@ func Test_nil(t *testing.T) {
 	fmt.Printf("nil -> %p\n", p)
 	fmt.Printf("nil -> %p\n", (*int)(nil))
 	fmt.Printf("nil -> %v\n", nil)
+
+	// *p = 999
+	// panic: runtime error: invalid memory address or nil pointer dereference [recovered, repanicked]
 }
 
 func Test_new(t *testing.T) {
