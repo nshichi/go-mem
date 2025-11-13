@@ -22,7 +22,10 @@ func main() {
 		return
 	}
 
-	filename := makeFilename()
+	filename := "bench-out/" + makeFilename()
+	// if _, err := os.Stat(filename); err == nil {
+	// 	panic()
+	// }
 	if err := os.WriteFile(filename, stdout.Bytes(), 0664); err != nil {
 		panic(err)
 	}
@@ -57,5 +60,5 @@ func makeFilename() string {
 	// goarch := runtime.GOARCH
 	d := time.Now().Format("2006-01-02")
 
-	return fmt.Sprintf("%s-%s.txt", d, host)
+	return fmt.Sprintf("%s %s.txt", d, host)
 }

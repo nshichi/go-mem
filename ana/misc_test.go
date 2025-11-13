@@ -134,3 +134,13 @@ func TestXxx0(t *testing.T) {
 	a = a[:0]
 	t.Logf("%d, %d", len(a), cap(a))
 }
+
+func Test_ret_ptr(t *testing.T) {
+	p := ret_ptr()
+	t.Logf("p, *p -> %p, %d", p, *p)
+}
+
+func ret_ptr() *int {
+	var a = 999
+	return &a
+}

@@ -58,7 +58,8 @@ func Test_string(t *testing.T) {
 
 const (
 	STRING_APPEND_TIMES = 100_000
-	SAMPLE_TEXT         = "0123456789"
+	// SAMPLE_TEXT         = "0123456789"
+	SAMPLE_TEXT = "A"
 )
 
 // 文字列継ぎ足し
@@ -66,10 +67,10 @@ func Benchmark_string_append1(b *testing.B) {
 	for b.Loop() {
 		var s = ""
 		for range STRING_APPEND_TIMES {
-			s = s + SAMPLE_TEXT
+			s = s + "A"
 		}
 
-		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
+		if len(s) != STRING_APPEND_TIMES*len("A") {
 			b.Errorf("len(s) mismatched")
 		}
 	}

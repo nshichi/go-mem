@@ -1,0 +1,21 @@
+goos: darwin
+goarch: amd64
+pkg: go-mem/ana
+cpu: Intel(R) Core(TM) i5-8210Y CPU @ 1.60GHz
+Benchmark_mapS-4              	       2	 545670218 ns/op	111540952 B/op	    8192 allocs/op
+Benchmark_mapI-4              	       5	 228158464 ns/op	75475211 B/op	    8194 allocs/op
+Benchmark_mapX-4              	       4	 260724975 ns/op	50352112 B/op	    8190 allocs/op
+Benchmark_string_append1-4    	       2	1040584094 ns/op	5309580944 B/op	  100210 allocs/op
+Benchmark_string_append2-4    	     100	  10064433 ns/op	 9030008 B/op	      29 allocs/op
+Benchmark_string_append3-4    	    6424	    230933 ns/op	  621307 B/op	      25 allocs/op
+Benchmark_string_append4-4    	   10000	    111523 ns/op	  212992 B/op	       2 allocs/op
+Benchmark_string_append5-4    	    1568	    729926 ns/op	  368577 B/op	      13 allocs/op
+Benchmark_string_compare2-4   	   30302	     41402 ns/op	       0 B/op	       0 allocs/op
+Benchmark_string_compare1-4   	236871744	         5.576 ns/op	       0 B/op	       0 allocs/op
+Benchmark_string_compare3-4   	692285922	         1.811 ns/op	       0 B/op	       0 allocs/op
+Benchmark_string_compare4-4   	100000000	        13.31 ns/op	       0 B/op	       0 allocs/op
+Benchmark3-4                  	    5834	    274263 ns/op	  575776 B/op	      12 allocs/op
+--- BENCH: Benchmark3-4
+    struct_test.go:36: 160 bytes
+PASS
+ok  	go-mem/ana	45.297s
