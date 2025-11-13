@@ -19,3 +19,5 @@ Benchmark3-4                  	    5834	    274263 ns/op	  575776 B/op	      12 
     struct_test.go:36: 160 bytes
 PASS
 ok  	go-mem/ana	45.297s
+ 1,040,584,094
+29,327,143,000 

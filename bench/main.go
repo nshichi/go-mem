@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 	"time"
 )
 
@@ -55,6 +56,8 @@ func makeFilename() string {
 	if err != nil {
 		host = "unknown"
 	}
+
+	host = strings.TrimSuffix(host, ".local")
 
 	// goos := runtime.GOOS
 	// goarch := runtime.GOARCH

@@ -1,0 +1,21 @@
+goos: windows
+goarch: amd64
+pkg: go-mem/ana
+cpu: AMD Ryzen 7 7800X3D 8-Core Processor           
+Benchmark_mapS-16               	      12	  99328750 ns/op	111603470 B/op	    8200 allocs/op
+Benchmark_mapI-16               	      22	  51277245 ns/op	75478205 B/op	    8194 allocs/op
+Benchmark_mapX-16               	      15	  72252500 ns/op	50378370 B/op	    8194 allocs/op
+Benchmark_string_append1-16     	       3	 451219100 ns/op	5309582650 B/op	  100228 allocs/op
+Benchmark_string_append2-16     	     404	   2864546 ns/op	 9030003 B/op	      29 allocs/op
+Benchmark_string_append3-16     	   13570	     89714 ns/op	  621307 B/op	      25 allocs/op
+Benchmark_string_append4-16     	   24735	     47149 ns/op	  212992 B/op	       2 allocs/op
+Benchmark_string_append5-16     	    3673	    319918 ns/op	  368576 B/op	      13 allocs/op
+Benchmark_string_compare2-16    	   77484	     15475 ns/op	       0 B/op	       0 allocs/op
+Benchmark_string_compare1-16    	530950897	         2.272 ns/op	       0 B/op	       0 allocs/op
+Benchmark_string_compare3-16    	1000000000	         1.000 ns/op	       0 B/op	       0 allocs/op
+Benchmark_string_compare4-16    	1000000000	         3.085 ns/op	       0 B/op	       0 allocs/op
+Benchmark3-16                   	    8830	    132927 ns/op	  575780 B/op	      12 allocs/op
+--- BENCH: Benchmark3-16
+    struct_test.go:36: 160 bytes
+PASS
+ok  	go-mem/ana	84.114s

@@ -57,9 +57,7 @@ func Test_string(t *testing.T) {
 }
 
 const (
-	STRING_APPEND_TIMES = 100_000
-	// SAMPLE_TEXT         = "0123456789"
-	SAMPLE_TEXT = "A"
+	STRING_APPEND_TIMES = 1_000_000
 )
 
 // 文字列継ぎ足し
@@ -81,11 +79,11 @@ func Benchmark_string_append2(b *testing.B) {
 	for b.Loop() {
 		var ss = make([]string, 0)
 		for range STRING_APPEND_TIMES {
-			ss = append(ss, SAMPLE_TEXT)
+			ss = append(ss, "A")
 		}
 		s := strings.Join(ss, "")
 
-		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
+		if len(s) != STRING_APPEND_TIMES*len("A") {
 			b.Errorf("len(s) mismatched")
 		}
 	}
@@ -97,12 +95,12 @@ func Benchmark_string_append3(b *testing.B) {
 		bb := make([]byte, 0)
 
 		for range STRING_APPEND_TIMES {
-			bb = append(bb, []byte(SAMPLE_TEXT)...)
+			bb = append(bb, []byte("A")...)
 		}
 
 		s := string(bb)
 
-		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
+		if len(s) != STRING_APPEND_TIMES*len("A") {
 			b.Errorf("len(s) mismatched")
 		}
 	}
@@ -111,28 +109,20 @@ func Benchmark_string_append3(b *testing.B) {
 // 文字列継ぎ足し append() あらかじめわりあて版
 func Benchmark_string_append4(b *testing.B) {
 	for b.Loop() {
-		maxBufLen := STRING_APPEND_TIMES * len(SAMPLE_TEXT)
+		maxBufLen := STRING_APPEND_TIMES * len("A")
 		bb := make([]byte, 0, maxBufLen)
 
 		for range STRING_APPEND_TIMES {
-			bb = append(bb, []byte(SAMPLE_TEXT)...)
+			bb = append(bb, []byte("A")...)
 		}
 
 		s := string(bb)
 
-		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
+		if len(s) != STRING_APPEND_TIMES*len("A") {
 			b.Errorf("len(s) mismatched")
 		}
 	}
-} /*
-Benchmark_string_append3-4           564           2,485,571 ns/op         6,249,240 B/op            33 allocs/op
-Benchmark_string_append3-4           518           2,238,573 ns/op         6,249,240 B/op            33 allocs/op
-Benchmark_string_append3-4          2520             462,681 ns/op         2,015,238 B/op             2 allocs/op
-Benchmark_string_append3-4          3318             366,419 ns/op         1,007,625 B/op             1 allocs/op
-
-Benchmark_string_append43-4          661           1,776,194 ns/op         3,104,721 B/op            16 allocs/op
-
-*/
+}
 
 // 文字列継ぎ足し bytes.Buffer 版
 func Benchmark_string_append5(b *testing.B) {
@@ -140,12 +130,12 @@ func Benchmark_string_append5(b *testing.B) {
 		var bb bytes.Buffer
 
 		for range STRING_APPEND_TIMES {
-			bb.Write([]byte(SAMPLE_TEXT))
+			bb.WriteString("A")
 		}
 
 		s := bb.String()
 
-		if len(s) != STRING_APPEND_TIMES*len(SAMPLE_TEXT) {
+		if len(s) != STRING_APPEND_TIMES*len("A") {
 			b.Errorf("len(s) mismatched")
 		}
 	}
