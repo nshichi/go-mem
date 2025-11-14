@@ -57,33 +57,59 @@ func Test_string(t *testing.T) {
 }
 
 const (
-	STRING_APPEND_TIMES = 1_000_000
+	APPEND_TIMES = 1_000_000
+	SAMPLE_TEXT  = "A"
 )
 
 // 文字列継ぎ足し
 func Benchmark_string_append1(b *testing.B) {
 	for b.Loop() {
 		var s = ""
-		for range STRING_APPEND_TIMES {
-			s = s + "A"
+		for range APPEND_TIMES {
+			s = s + SAMPLE_TEXT
+			// b.Logf("%p", unsafe.StringData(s))
 		}
 
-		if len(s) != STRING_APPEND_TIMES*len("A") {
+		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}
 }
 
+func Test_string_append1(t *testing.T) {
+	const APPEND_TIMES = 10
+	var s string = ""
+	t.Logf("%p, %d", unsafe.StringData(s), len(s))
+	for range APPEND_TIMES {
+		s = s + SAMPLE_TEXT
+		t.Logf("%p, %d", unsafe.StringData(s), len(s))
+	}
+}
+
+/*
+0x0, 0
+0x7ff6bbb58da0, 1
+0xc0003fcaaa, 2
+0xc0003fcaac, 3
+0xc0003fcb30, 4
+0xc0003fcb34, 5
+0xc0003fcb3a, 6
+0xc0003fcba0, 7
+0xc0003fcba8, 8
+0xc0003fcbf0, 9
+0xc0003fcc20, 10
+*/
+
 // 文字列継ぎ足し strings.Join()版
 func Benchmark_string_append2(b *testing.B) {
 	for b.Loop() {
 		var ss = make([]string, 0)
-		for range STRING_APPEND_TIMES {
-			ss = append(ss, "A")
+		for range APPEND_TIMES {
+			ss = append(ss, SAMPLE_TEXT)
 		}
 		s := strings.Join(ss, "")
 
-		if len(s) != STRING_APPEND_TIMES*len("A") {
+		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}
@@ -94,13 +120,13 @@ func Benchmark_string_append3(b *testing.B) {
 	for b.Loop() {
 		bb := make([]byte, 0)
 
-		for range STRING_APPEND_TIMES {
-			bb = append(bb, []byte("A")...)
+		for range APPEND_TIMES {
+			bb = append(bb, []byte(SAMPLE_TEXT)...)
 		}
 
 		s := string(bb)
 
-		if len(s) != STRING_APPEND_TIMES*len("A") {
+		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}
@@ -109,16 +135,16 @@ func Benchmark_string_append3(b *testing.B) {
 // 文字列継ぎ足し append() あらかじめわりあて版
 func Benchmark_string_append4(b *testing.B) {
 	for b.Loop() {
-		maxBufLen := STRING_APPEND_TIMES * len("A")
+		maxBufLen := APPEND_TIMES * len(SAMPLE_TEXT)
 		bb := make([]byte, 0, maxBufLen)
 
-		for range STRING_APPEND_TIMES {
-			bb = append(bb, []byte("A")...)
+		for range APPEND_TIMES {
+			bb = append(bb, []byte(SAMPLE_TEXT)...)
 		}
 
 		s := string(bb)
 
-		if len(s) != STRING_APPEND_TIMES*len("A") {
+		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}
@@ -129,13 +155,13 @@ func Benchmark_string_append5(b *testing.B) {
 	for b.Loop() {
 		var bb bytes.Buffer
 
-		for range STRING_APPEND_TIMES {
-			bb.WriteString("A")
+		for range APPEND_TIMES {
+			bb.WriteString(SAMPLE_TEXT)
 		}
 
 		s := bb.String()
 
-		if len(s) != STRING_APPEND_TIMES*len("A") {
+		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
 	}
@@ -146,8 +172,8 @@ func compare1(s1, s2 string) bool {
 }
 
 func Benchmark_string_compare2(b *testing.B) {
-	s1 := strings.Repeat("A", 1_000_000)
-	s3 := strings.Repeat("A", 1_000_000)
+	s1 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
+	s3 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
 	// s4 := strings.Repeat("X", 1_000_000)
 
 	for b.Loop() {
@@ -158,7 +184,7 @@ func Benchmark_string_compare2(b *testing.B) {
 }
 
 func Benchmark_string_compare1(b *testing.B) {
-	s1 := strings.Repeat("A", 1_000_000)
+	s1 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
 	s2 := s1
 
 	for b.Loop() {
@@ -170,7 +196,7 @@ func Benchmark_string_compare1(b *testing.B) {
 }
 
 func Benchmark_string_compare3(b *testing.B) {
-	s1 := strings.Repeat("A", 1_000_000)
+	s1 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
 	s2 := s1
 
 	for b.Loop() {
@@ -181,7 +207,7 @@ func Benchmark_string_compare3(b *testing.B) {
 }
 
 func Benchmark_string_compare4(b *testing.B) {
-	s1 := strings.Repeat("A", 1_000_000)
+	s1 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
 	ss := make([]string, 0)
 	for range b.N {
 		ss = append(ss, s1)
