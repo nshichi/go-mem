@@ -66,10 +66,11 @@ func Benchmark_string_append1(b *testing.B) {
 	for b.Loop() {
 		var s = ""
 		for range APPEND_TIMES {
-			s = s + SAMPLE_TEXT
+			s += SAMPLE_TEXT
 			// b.Logf("%p", unsafe.StringData(s))
 		}
 
+		b.Logf("%p", unsafe.StringData(s))
 		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
 			b.Errorf("len(s) mismatched")
 		}
@@ -81,7 +82,7 @@ func Test_string_append1(t *testing.T) {
 	var s string = ""
 	t.Logf("%p, %d", unsafe.StringData(s), len(s))
 	for range APPEND_TIMES {
-		s = s + SAMPLE_TEXT
+		s += SAMPLE_TEXT
 		t.Logf("%p, %d", unsafe.StringData(s), len(s))
 	}
 }
