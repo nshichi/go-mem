@@ -87,20 +87,6 @@ func Test_string_append1(t *testing.T) {
 	}
 }
 
-/*
-0x0, 0
-0x7ff6bbb58da0, 1
-0xc0003fcaaa, 2
-0xc0003fcaac, 3
-0xc0003fcb30, 4
-0xc0003fcb34, 5
-0xc0003fcb3a, 6
-0xc0003fcba0, 7
-0xc0003fcba8, 8
-0xc0003fcbf0, 9
-0xc0003fcc20, 10
-*/
-
 // 文字列継ぎ足し strings.Join()版
 func Benchmark_string_append2(b *testing.B) {
 	for b.Loop() {
@@ -116,7 +102,7 @@ func Benchmark_string_append2(b *testing.B) {
 	}
 }
 
-// 文字列継ぎ足し append() 版
+// 文字列継ぎ足し []byte append() 版
 func Benchmark_string_append3(b *testing.B) {
 	for b.Loop() {
 		bb := make([]byte, 0)
@@ -133,7 +119,7 @@ func Benchmark_string_append3(b *testing.B) {
 	}
 }
 
-// 文字列継ぎ足し append() あらかじめわりあて版
+// 文字列継ぎ足し []byte append() あらかじめ割当て版
 func Benchmark_string_append4(b *testing.B) {
 	for b.Loop() {
 		maxBufLen := APPEND_TIMES * len(SAMPLE_TEXT)
@@ -151,8 +137,32 @@ func Benchmark_string_append4(b *testing.B) {
 	}
 }
 
-// 文字列継ぎ足し bytes.Buffer 版
+/*Benchmark_string_append4-16
+  3066            396,798 ns/op         201,5239 B/op          2 allocs/op
+*/
+// 文字列継ぎ足し []byte append() あらかじめ割当て版 + unsafe.String()
 func Benchmark_string_append5(b *testing.B) {
+	for b.Loop() {
+		maxBufLen := APPEND_TIMES * len(SAMPLE_TEXT)
+		bb := make([]byte, 0, maxBufLen)
+
+		for range APPEND_TIMES {
+			bb = append(bb, []byte(SAMPLE_TEXT)...)
+		}
+
+		s := unsafe.String(&bb[0], len(bb))
+
+		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
+			b.Errorf("len(s) mismatched")
+		}
+	}
+}
+
+/*Benchmark_string_append5-16
+  2323            518,336 ns/op         100,7624 B/op          1 allocs/op*/
+
+// 文字列継ぎ足し bytes.Buffer 版
+func Benchmark_string_append6(b *testing.B) {
 	for b.Loop() {
 		var bb bytes.Buffer
 
