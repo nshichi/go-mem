@@ -77,7 +77,8 @@ func Benchmark_string_append1(b *testing.B) {
 	}
 }
 
-func Test_string_append1(t *testing.T) {
+// 文字列継ぎ足し
+func Test_string_append(t *testing.T) {
 	const APPEND_TIMES = 10
 	var s string = ""
 	t.Logf("%p, %d", unsafe.StringData(s), len(s))
@@ -88,7 +89,7 @@ func Test_string_append1(t *testing.T) {
 }
 
 // 文字列継ぎ足し strings.Join()版
-func Benchmark_string_append2(b *testing.B) {
+func Benchmark_string_append_strings_Join(b *testing.B) {
 	for b.Loop() {
 		var ss = make([]string, 0)
 		for range APPEND_TIMES {
@@ -102,8 +103,8 @@ func Benchmark_string_append2(b *testing.B) {
 	}
 }
 
-// 文字列継ぎ足し []byte append() 版
-func Benchmark_string_append3(b *testing.B) {
+// 文字列継ぎ足し []byte 版
+func Benchmark_string_append_bytes(b *testing.B) {
 	for b.Loop() {
 		bb := make([]byte, 0)
 
@@ -119,11 +120,11 @@ func Benchmark_string_append3(b *testing.B) {
 	}
 }
 
-// 文字列継ぎ足し []byte append() あらかじめ割当て版
-func Benchmark_string_append4(b *testing.B) {
+// 文字列継ぎ足し []byte 版 maxLength指定
+func Benchmark_string_append_bytes_maxLength(b *testing.B) {
 	for b.Loop() {
-		maxBufLen := APPEND_TIMES * len(SAMPLE_TEXT)
-		bb := make([]byte, 0, maxBufLen)
+		maxLength := APPEND_TIMES * len(SAMPLE_TEXT)
+		bb := make([]byte, 0, maxLength)
 
 		for range APPEND_TIMES {
 			bb = append(bb, []byte(SAMPLE_TEXT)...)
@@ -137,14 +138,11 @@ func Benchmark_string_append4(b *testing.B) {
 	}
 }
 
-/*Benchmark_string_append4-16
-  3066            396,798 ns/op         201,5239 B/op          2 allocs/op
-*/
-// 文字列継ぎ足し []byte append() あらかじめ割当て版 + unsafe.String()
-func Benchmark_string_append5(b *testing.B) {
+// 文字列継ぎ足し unsafe.String()
+func Benchmark_string_append_unsafe_String(b *testing.B) {
 	for b.Loop() {
-		maxBufLen := APPEND_TIMES * len(SAMPLE_TEXT)
-		bb := make([]byte, 0, maxBufLen)
+		maxLength := APPEND_TIMES * len(SAMPLE_TEXT)
+		bb := make([]byte, 0, maxLength)
 
 		for range APPEND_TIMES {
 			bb = append(bb, []byte(SAMPLE_TEXT)...)
@@ -158,11 +156,8 @@ func Benchmark_string_append5(b *testing.B) {
 	}
 }
 
-/*Benchmark_string_append5-16
-  2323            518,336 ns/op         100,7624 B/op          1 allocs/op*/
-
 // 文字列継ぎ足し bytes.Buffer 版
-func Benchmark_string_append6(b *testing.B) {
+func Benchmark_string_append_bytes_Buffer(b *testing.B) {
 	for b.Loop() {
 		var bb bytes.Buffer
 
@@ -178,36 +173,21 @@ func Benchmark_string_append6(b *testing.B) {
 	}
 }
 
-func compare1(s1, s2 string) bool {
-	return s1 == s2
-}
-
+// 文字列の比較 (別のバイト配列)
 func Benchmark_string_compare2(b *testing.B) {
-	s1 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
-	s3 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
-	// s4 := strings.Repeat("X", 1_000_000)
+	s1 := strings.Repeat("A", 1_000_000)
+	s3 := strings.Repeat("A", 1_000_000)
 
 	for b.Loop() {
-		if !compare1(s1, s3) {
+		if s1 != s3 {
 			b.Errorf("")
 		}
 	}
 }
 
+// 文字列の比較 (同じバイト配列を共有する)
 func Benchmark_string_compare1(b *testing.B) {
-	s1 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
-	s2 := s1
-
-	for b.Loop() {
-		// if s1 != s2 {
-		if !compare1(s1, s2) {
-			b.Errorf("")
-		}
-	}
-}
-
-func Benchmark_string_compare3(b *testing.B) {
-	s1 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
+	s1 := strings.Repeat("A", 1_000_000)
 	s2 := s1
 
 	for b.Loop() {
@@ -218,7 +198,7 @@ func Benchmark_string_compare3(b *testing.B) {
 }
 
 func Benchmark_string_compare4(b *testing.B) {
-	s1 := strings.Repeat(SAMPLE_TEXT, 1_000_000)
+	s1 := strings.Repeat("A", 1_000_000)
 	ss := make([]string, 0)
 	for range b.N {
 		ss = append(ss, s1)
@@ -230,4 +210,8 @@ func Benchmark_string_compare4(b *testing.B) {
 			b.Errorf("")
 		}
 	}
+}
+
+func compare1(s1, s2 string) bool {
+	return s1 == s2
 }
