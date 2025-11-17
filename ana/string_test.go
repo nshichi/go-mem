@@ -173,22 +173,12 @@ func Benchmark_string_append_bytes_Buffer(b *testing.B) {
 	}
 }
 
-// 文字列の比較 (別のバイト配列)
-func Benchmark_string_compare2(b *testing.B) {
-	s1 := strings.Repeat("A", 1_000_000)
-	s3 := strings.Repeat("A", 1_000_000)
-
-	for b.Loop() {
-		if s1 != s3 {
-			b.Errorf("")
-		}
-	}
-}
-
 // 文字列の比較 (同じバイト配列を共有する)
 func Benchmark_string_compare1(b *testing.B) {
 	s1 := strings.Repeat("A", 1_000_000)
 	s2 := s1
+	fmt.Printf("s1 -> %p\n", unsafe.StringData(s1))
+	fmt.Printf("s2 -> %p\n", unsafe.StringData(s2))
 
 	for b.Loop() {
 		if s1 != s2 {
@@ -197,21 +187,39 @@ func Benchmark_string_compare1(b *testing.B) {
 	}
 }
 
-func Benchmark_string_compare4(b *testing.B) {
-	s1 := strings.Repeat("A", 1_000_000)
-	ss := make([]string, 0)
-	for range b.N {
-		ss = append(ss, s1)
-	}
-	b.ResetTimer()
+// s1 -> 0xc000280000
+// s2 -> 0xc000280000
+// s3 -> 0xc000306000
 
-	for i := range b.N {
-		if s1 != ss[i] {
+// 文字列の比較 (別のバイト配列)
+func Benchmark_string_compare2(b *testing.B) {
+	s1 := strings.Repeat("A", 1_000_000)
+	s3 := strings.Repeat("A", 1_000_000)
+	fmt.Printf("s1 -> %p\n", unsafe.StringData(s1))
+	fmt.Printf("s3 -> %p\n", unsafe.StringData(s3))
+
+	for b.Loop() {
+		if s1 != s3 {
 			b.Errorf("")
 		}
 	}
 }
 
-func compare1(s1, s2 string) bool {
-	return s1 == s2
-}
+// func Benchmark_string_compare4(b *testing.B) {
+// 	s1 := strings.Repeat("A", 1_000_000)
+// 	ss := make([]string, 0)
+// 	for range b.N {
+// 		ss = append(ss, s1)
+// 	}
+// 	b.ResetTimer()
+
+// 	for i := range b.N {
+// 		if s1 != ss[i] {
+// 			b.Errorf("")
+// 		}
+// 	}
+// }
+
+// func compare1(s1, s2 string) bool {
+// 	return s1 == s2
+// }

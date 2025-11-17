@@ -1,6 +1,9 @@
 package ana
 
-import "testing"
+import (
+	"encoding/json"
+	"testing"
+)
 
 // スライス コピー
 func Test_copy_slice(t *testing.T) {
@@ -93,4 +96,72 @@ func Test_slicing(t *testing.T) {
 
 	s5 := a[1:2][0:4]
 	t.Logf("a[1:2][0:4], cap(a[1:2][0:4]) -> %v, %d", s5, cap(s5))
+}
+
+func Test_json_marshal(t *testing.T) {
+	var s []int // 未初期化 = nil スライス
+
+	if s == nil {
+		t.Logf("s is nil slice")
+	} else {
+		t.Logf("s is not nil slice, len(s) -> %d", len(s))
+	}
+	j0, _ := json.Marshal(s)
+	t.Logf(`s0 -> "%s"`, string(j0))
+
+	s = []int{}
+	if s == nil {
+		t.Logf("s is nil slice")
+	} else {
+		t.Logf("s is not nil slice, len(s) -> %d", len(s))
+	}
+	j1, _ := json.Marshal(s)
+	t.Logf(`s -> "%s"`, string(j1))
+
+	s = nil
+	if s == nil {
+		t.Logf("s is nil slice")
+	} else {
+		t.Logf("s is not nil slice, len(s) -> %d", len(s))
+	}
+	j2, _ := json.Marshal(s)
+	t.Logf(`s -> "%s"`, string(j2))
+}
+
+func Test_nil_slice(t *testing.T) {
+	eq := map[bool]string{
+		false: "!=",
+		true:  "==",
+	}
+
+	// 未初期化 は nil スライス
+	var s []int
+	j, _ := json.Marshal(s)
+	t.Logf(`no init     %s nil, len(s) -> %d, json -> "%s"`, eq[s == nil], len(s), string(j))
+
+	// 空スライス は nilスライスではない
+	s = []int{}
+	j, _ = json.Marshal(s)
+	t.Logf(`empty slice %s nil, len(s) -> %d, json -> "%s"`, eq[s == nil], len(s), string(j))
+
+	// スライスにnilを代入
+	s = nil
+	j, _ = json.Marshal(s)
+	t.Logf(`assign nil  %s nil, len(s) -> %d, json -> "%s"`, eq[s == nil], len(s), string(j))
+}
+
+func Test_slice_shrink(t *testing.T) {
+	var s = []int{1, 2, 3, 4, 5}
+	t.Logf("s -> %v", s)
+
+	s = s[:0]
+	t.Logf("s -> %v", s)
+
+	s = s[:4]
+	t.Logf("s -> %v", s)
+
+	// s = s[:6]
+	// t.Logf("s -> %v", s)
+	// panic: runtime error: slice bounds out of range [:6] with capacity 5 [recovered, repanicked]
+
 }
