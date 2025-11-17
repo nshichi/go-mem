@@ -156,6 +156,24 @@ func Benchmark_string_append_unsafe_String(b *testing.B) {
 	}
 }
 
+// 文字列継ぎ足し unsafe.Pointer()
+func Benchmark_string_append_unsafe_Pointer(b *testing.B) {
+	for b.Loop() {
+		maxLength := APPEND_TIMES * len(SAMPLE_TEXT)
+		bb := make([]byte, 0, maxLength)
+
+		for range APPEND_TIMES {
+			bb = append(bb, []byte(SAMPLE_TEXT)...)
+		}
+
+		s := *(*string)(unsafe.Pointer(&bb))
+
+		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
+			b.Errorf("len(s) mismatched")
+		}
+	}
+}
+
 // 文字列継ぎ足し bytes.Buffer 版
 func Benchmark_string_append_bytes_Buffer(b *testing.B) {
 	for b.Loop() {
@@ -173,6 +191,33 @@ func Benchmark_string_append_bytes_Buffer(b *testing.B) {
 	}
 }
 
+// 文字列継ぎ足し bytes.Buffer 版
+func Benchmark_string_append_strings_Builder(b *testing.B) {
+	for b.Loop() {
+		var sb strings.Builder
+		maxLength := APPEND_TIMES * len(SAMPLE_TEXT)
+		sb.Grow(maxLength)
+
+		for range APPEND_TIMES {
+			sb.WriteString(SAMPLE_TEXT)
+		}
+
+		s := sb.String()
+
+		if len(s) != APPEND_TIMES*len(SAMPLE_TEXT) {
+			b.Errorf("len(s) mismatched")
+		}
+	}
+}
+
+/*
+Benchmark_string_append_strings_Builder-4             94
+12,784,034 ns/op    5241695 B/op         33 allocs/op
+Benchmark_string_append_unsafe_String-4 694
+1,532,084 ns/op         1007627 B/op          1 allocs/op
+10,280,615 ns/op    1007677 B/op          1 allocs/op
+2,811,189 ns/op    1007635 B/op          1 allocs/op
+*/
 // 文字列の比較 (同じバイト配列を共有する)
 func Benchmark_string_compare1(b *testing.B) {
 	s1 := strings.Repeat("A", 1_000_000)
