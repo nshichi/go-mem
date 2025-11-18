@@ -1,0 +1,29 @@
+goos: linux
+goarch: arm
+pkg: go-mem/ana
+cpu: ARMv7 Processor rev 4 (v7l)
+Benchmark_mapS-4                             	       1	3747075790 ns/op	55664712 B/op	    8210 allocs/op
+Benchmark_mapI-4                             	       1	2549016780 ns/op	55501624 B/op	    8187 allocs/op
+Benchmark_mapX-4                             	       1	3098359940 ns/op	50403320 B/op	    8211 allocs/op
+Benchmark_string_append1-4                   	       1	150346132104 ns/op	50399869104 B/op	  103139 allocs/op
+--- BENCH: Benchmark_string_append1-4
+    string_append_test.go:27: 0x177a000
+Benchmark_string_append_strings_Join-4       	      16	  94606727 ns/op	 5504212 B/op	      28 allocs/op
+Benchmark_string_append_bytes-4              	      33	  37571968 ns/op	 6249203 B/op	      33 allocs/op
+Benchmark_string_append_bytes_maxLength-4    	      63	  20796941 ns/op	 2015240 B/op	       2 allocs/op
+Benchmark_string_append_unsafe_String-4      	      68	  17982077 ns/op	 1007616 B/op	       1 allocs/op
+Benchmark_string_append_unsafe_Pointer-4     	      62	  19521102 ns/op	 1007617 B/op	       1 allocs/op
+Benchmark_string_append_bytes_Buffer-4       	      46	  28046142 ns/op	 2015236 B/op	       2 allocs/op
+Benchmark_string_append_strings_Builder-4    	      51	  23808867 ns/op	 1007616 B/op	       1 allocs/op
+Benchmark_string_append_strings_Builder0-4   	      28	  43960814 ns/op	 5241588 B/op	      32 allocs/op
+s1 -> 0x158e000
+s2 -> 0x158e000
+Benchmark_string_compare1-4                  	17424470	        68.87 ns/op	       0 B/op	       0 allocs/op
+s1 -> 0x158e000
+s3 -> 0x1684000
+Benchmark_string_compare2-4                  	     442	   2707119 ns/op	       0 B/op	       0 allocs/op
+Benchmark3-4                                 	    1213	    971758 ns/op	  303008 B/op	      12 allocs/op
+--- BENCH: Benchmark3-4
+    struct_test.go:36: 88 bytes
+PASS
+ok  	go-mem/ana	194.013s
