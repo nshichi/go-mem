@@ -1,0 +1,29 @@
+goos: darwin
+goarch: amd64
+pkg: go-mem/ana
+cpu: Intel(R) Core(TM) i5-8210Y CPU @ 1.60GHz
+Benchmark_mapS-4                             	       2	 706782160 ns/op	111513704 B/op	    8190 allocs/op
+Benchmark_mapI-4                             	       4	 250768735 ns/op	75509224 B/op	    8197 allocs/op
+Benchmark_mapX-4                             	       4	 272713554 ns/op	50407552 B/op	    8199 allocs/op
+Benchmark_string_append1-4                   	       1	16319565418 ns/op	50399876656 B/op	  102209 allocs/op
+--- BENCH: Benchmark_string_append1-4
+    string_append_test.go:27: 0xc00037a000
+Benchmark_string_append_strings_Join-4       	      81	  12411442 ns/op	 9931130 B/op	      29 allocs/op
+Benchmark_string_append_bytes-4              	     474	   2425885 ns/op	 6249229 B/op	      33 allocs/op
+Benchmark_string_append_bytes_maxLength-4    	    1534	    688511 ns/op	 2015241 B/op	       2 allocs/op
+Benchmark_string_append_unsafe_String-4      	    2482	    430058 ns/op	 1007618 B/op	       1 allocs/op
+Benchmark_string_append_unsafe_Pointer-4     	    1833	    592514 ns/op	 1007617 B/op	       1 allocs/op
+Benchmark_string_append_bytes_Buffer-4       	     993	   1197276 ns/op	 2015238 B/op	       2 allocs/op
+Benchmark_string_append_strings_Builder-4    	    1220	   1049335 ns/op	 1007619 B/op	       1 allocs/op
+Benchmark_string_append_strings_Builder0-4   	     363	   3376125 ns/op	 5241592 B/op	      32 allocs/op
+s1 -> 0xc00018e000
+s2 -> 0xc00018e000
+Benchmark_string_compare1-4                  	655571794	         1.888 ns/op	       0 B/op	       0 allocs/op
+s1 -> 0xc00018e000
+s3 -> 0xc000284000
+Benchmark_string_compare2-4                  	   30169	     40303 ns/op	       0 B/op	       0 allocs/op
+Benchmark3-4                                 	    7941	    177849 ns/op	  575778 B/op	      12 allocs/op
+--- BENCH: Benchmark3-4
+    struct_test.go:36: 160 bytes
+PASS
+ok  	go-mem/ana	34.157s

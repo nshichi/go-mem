@@ -102,3 +102,15 @@ func Benchmark_mapX(b *testing.B) {
 		// b.Logf("len(m) = %d", len(m))
 	}
 }
+
+// map is reference, can be modified with no pointer
+func Test_map_append(t *testing.T) {
+	var m = make(map[string]int)
+	m["A"] = 123
+	addmap(m, "B", 999)
+	t.Logf("m -> %v", m)
+}
+
+func addmap(m map[string]int, key string, value int) {
+	m[key] = value
+}
