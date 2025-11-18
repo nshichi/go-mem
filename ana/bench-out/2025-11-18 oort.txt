@@ -1,0 +1,42 @@
+goos: windows
+goarch: amd64
+pkg: go-mem/ana
+cpu: AMD Ryzen 7 7800X3D 8-Core Processor           
+Benchmark_mapS
+Benchmark_mapS-16                              	      12	  95668842 ns/op	111562530 B/op	    8197 allocs/op
+Benchmark_mapI
+Benchmark_mapI-16                              	      22	  51064055 ns/op	75479901 B/op	    8194 allocs/op
+Benchmark_mapX
+Benchmark_mapX-16                              	      14	  79021179 ns/op	50366195 B/op	    8192 allocs/op
+Benchmark_string_append1
+    string_append_test.go:27: 0xc000208000
+Benchmark_string_append1-16                    	       1	3072039900 ns/op	50399833640 B/op	  101742 allocs/op
+Benchmark_string_append_strings_Join
+Benchmark_string_append_strings_Join-16        	     350	   3705765 ns/op	 9931140 B/op	      29 allocs/op
+Benchmark_string_append_bytes
+Benchmark_string_append_bytes-16               	    2268	    468358 ns/op	 6249206 B/op	      33 allocs/op
+Benchmark_string_append_bytes_maxLength
+Benchmark_string_append_bytes_maxLength-16     	    8344	    172277 ns/op	 2015235 B/op	       2 allocs/op
+Benchmark_string_append_unsafe_String
+Benchmark_string_append_unsafe_String-16       	   10000	    108289 ns/op	 1007617 B/op	       1 allocs/op
+Benchmark_string_append_unsafe_Pointer
+Benchmark_string_append_unsafe_Pointer-16      	    6961	    171812 ns/op	 1007618 B/op	       1 allocs/op
+Benchmark_string_append_bytes_Buffer
+Benchmark_string_append_bytes_Buffer-16        	    2697	    443485 ns/op	 2015242 B/op	       2 allocs/op
+Benchmark_string_append_strings_Builder
+Benchmark_string_append_strings_Builder-16     	    2826	    436350 ns/op	 1007621 B/op	       1 allocs/op
+Benchmark_string_append_strings_Builder0
+Benchmark_string_append_strings_Builder0-16    	    1113	    998032 ns/op	 5241614 B/op	      32 allocs/op
+Benchmark_string_compare1
+s1 -> 0xc000208000
+s2 -> 0xc000208000
+Benchmark_string_compare1-16                   	1000000000	         1.000 ns/op	       0 B/op	       0 allocs/op
+Benchmark_string_compare2
+s1 -> 0xc000208000
+s3 -> 0xc0002fe000
+Benchmark_string_compare2-16                   	   75554	     15732 ns/op	       0 B/op	       0 allocs/op
+Benchmark3
+    struct_test.go:36: 160 bytes
+Benchmark3-16                                  	   16923	     69746 ns/op	  575777 B/op	      12 allocs/op
+PASS
+ok  	go-mem/ana	20.123s
