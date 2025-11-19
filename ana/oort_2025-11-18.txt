@@ -1,0 +1,29 @@
+goos: windows
+goarch: amd64
+pkg: go-mem/ana
+cpu: AMD Ryzen 7 7800X3D 8-Core Processor           
+Benchmark_mapS-16                              	      12	  90544200 ns/op	111571628 B/op	    8197 allocs/op
+Benchmark_mapI-16                              	      24	  49760042 ns/op	75460010 B/op	    8191 allocs/op
+Benchmark_mapX-16                              	      16	  69576456 ns/op	50387526 B/op	    8195 allocs/op
+Benchmark_string_append1-16                    	       1	3035051000 ns/op	50399816928 B/op	  101569 allocs/op
+--- BENCH: Benchmark_string_append1-16
+    string_append_test.go:27: 0xc000300000
+Benchmark_string_append_strings_Join-16        	     358	   3340307 ns/op	 9931139 B/op	      29 allocs/op
+Benchmark_string_append_bytes-16               	    2354	    460455 ns/op	 6249207 B/op	      33 allocs/op
+Benchmark_string_append_bytes_maxLength-16     	    9639	    170655 ns/op	 2015234 B/op	       2 allocs/op
+Benchmark_string_append_unsafe_String-16       	   10000	    109397 ns/op	 1007618 B/op	       1 allocs/op
+Benchmark_string_append_unsafe_Pointer-16      	    6373	    177354 ns/op	 1007618 B/op	       1 allocs/op
+Benchmark_string_append_bytes_Buffer-16        	    2532	    416499 ns/op	 2015243 B/op	       2 allocs/op
+Benchmark_string_append_strings_Builder-16     	    2778	    427732 ns/op	 1007620 B/op	       1 allocs/op
+Benchmark_string_append_strings_Builder0-16    	    1268	   1010842 ns/op	 5241607 B/op	      32 allocs/op
+s1 -> 0xc00020a000
+s2 -> 0xc00020a000
+Benchmark_string_compare1-16                   	1000000000	         1.000 ns/op	       0 B/op	       0 allocs/op
+s1 -> 0xc00020a000
+s3 -> 0xc000300000
+Benchmark_string_compare2-16                   	   74187	     15752 ns/op	       0 B/op	       0 allocs/op
+Benchmark3-16                                  	   17559	     67222 ns/op	  575777 B/op	      12 allocs/op
+--- BENCH: Benchmark3-16
+    struct_test.go:36: 160 bytes
+PASS
+ok  	go-mem/ana	20.120s

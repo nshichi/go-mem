@@ -7,17 +7,17 @@ import (
 )
 
 func Test_map(t *testing.T) {
-	myMap := make(map[string]int)
-	myMap["a"] = 1
+	var m map[string]int
+	m = make(map[string]int)
+	m["a"] = 1
 
-	mapPtr := unsafe.Pointer(&myMap)
-	hmapPtr := (*unsafe.Pointer)(mapPtr) // runtime.hmap
-	t.Logf("mapPtr -> %p, *hmapPtr -> %p", mapPtr, *hmapPtr)
+	mp := unsafe.Pointer(&m)
+	hmapPtr := (*unsafe.Pointer)(mp) // runtime.hmap
+	t.Logf("mp -> %p, *hmapPtr -> %p", mp, *hmapPtr)
 }
 
 // cf. 【Go】Mapの内部構造とO(1)のメカニズム https://zenn.dev/smartshopping/articles/5df9c3717e25bd
 
-// 91,592,258
 func Benchmark_mapS(b *testing.B) {
 	keys := make([]string, 0)
 	for range 1_000_000 {
@@ -40,7 +40,6 @@ func Benchmark_mapS(b *testing.B) {
 	}
 }
 
-// 53,606,432
 func Benchmark_mapI(b *testing.B) {
 	keys := make([]uint64, 0)
 	for range 1_000_000 {
@@ -104,7 +103,7 @@ func Benchmark_mapX(b *testing.B) {
 }
 
 // map is reference, can be modified with no pointer
-func Test_map_append(t *testing.T) {
+func Test_map_add(t *testing.T) {
 	var m = make(map[string]int)
 	m["A"] = 123
 	addmap(m, "B", 999)

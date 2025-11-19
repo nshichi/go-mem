@@ -3,11 +3,32 @@ package ana
 import (
 	"encoding/json"
 	"testing"
+	"unsafe"
 )
 
 // スライス コピー
 func Test_copy_slice(t *testing.T) {
-	a1 := []int{1, 1, 1}
+	s := []int{1, 2, 3}
+	s1 := s
+	s[1] = 999
+	t.Logf("s  -> %v", s)
+	t.Logf("s1 -> %v", s1)
+	t.Logf("s.Data  -> %p", unsafe.SliceData(s))
+	t.Logf("s1.Data -> %p", unsafe.SliceData(s1))
+
+	s2 := make([]int, 5)
+	n := copy(s2, s)
+	t.Logf("copy(s2, s) -> %v", n)
+	s2[1] = 888
+	t.Logf("s  -> %v", s)
+	t.Logf("s2 -> %v", s2)
+
+	t.Logf("s2.Data -> %p", unsafe.SliceData(s2))
+}
+
+// 配列 代入
+func Test_assign_array(t *testing.T) {
+	a1 := [3]int{1, 1, 1}
 	a2 := a1
 	a1[1] = 999
 	t.Logf("a1 -> %v", a1)
@@ -16,33 +37,24 @@ func Test_copy_slice(t *testing.T) {
 
 // スライス 関数渡し
 func Test_arg_slice(t *testing.T) {
-	a1 := []int{1, 1, 1}
+	s := []int{1, 1, 1}
+	t.Logf("s -> %v", s)
+
 	func(a2 []int) {
 		a2[1] = 999
-
-		t.Logf("a1 -> %v", a1)
-		t.Logf("a2 -> %v", a2)
-	}(a1)
-}
-
-// 配列 コピー
-func Test_copy_array(t *testing.T) {
-	a1 := [3]int{1, 1, 1}
-	a2 := a1
-	a1[1] = 999
-	t.Logf("a1 -> %v", a1)
-	t.Logf("a2 -> %v", a2)
+	}(s)
+	t.Logf("s' -> %v", s)
 }
 
 // 配列 関数コピー渡し
 func Test_arg_array(t *testing.T) {
-	a1 := [3]int{1, 1, 1}
+	a := [3]int{1, 1, 1}
+	t.Logf("a -> %v", a)
+
 	func(a2 [3]int) {
 		a2[1] = 999
-
-		t.Logf("a1 -> %v", a1)
-		t.Logf("a2 -> %v", a2)
-	}(a1)
+	}(a)
+	t.Logf("a' -> %v", a)
 }
 
 func Test_スライス継ぎ足し(t *testing.T) {

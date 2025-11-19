@@ -63,5 +63,5 @@ func makeFilename() string {
 	// goarch := runtime.GOARCH
 	d := time.Now().Format("2006-01-02")
 
-	return fmt.Sprintf("%s %s.txt", host, d)
+	return fmt.Sprintf("%s_%s.txt", host, d)
 }
