@@ -58,3 +58,17 @@ func Test_show_nil(t *testing.T) {
 	var p *int = nil
 	t.Logf("%p", p)
 }
+
+func Test_struct_empty(t *testing.T) {
+	var e0 struct{}
+	var e1 struct{}
+	var ea [3]struct{}
+	t.Logf("&e0, size of e0 -> %p, %d", unsafe.Pointer(&e0), unsafe.Sizeof(e0))
+	t.Logf("&e1, size of e1 -> %p, %d", unsafe.Pointer(&e1), unsafe.Sizeof(e1))
+	t.Logf("&ea, size of ea -> %p, %d", unsafe.Pointer(&ea), unsafe.Sizeof(ea))
+
+	var es []struct{}
+	es = append(es, struct{}{})
+	t.Logf("&es, size of es -> %p, %d", unsafe.Pointer(&es), unsafe.Sizeof(es))
+	t.Logf("&es[0], size of es[0] -> %p, %d", unsafe.Pointer(&es[0]), unsafe.Sizeof(es[0]))
+}

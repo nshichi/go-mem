@@ -175,5 +175,4 @@ func Test_slice_shrink(t *testing.T) {
 	// s = s[:6]
 	// t.Logf("s -> %v", s)
 	// panic: runtime error: slice bounds out of range [:6] with capacity 5 [recovered, repanicked]
-
 }
