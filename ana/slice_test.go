@@ -2,6 +2,7 @@ package ana
 
 import (
 	"encoding/json"
+	"fmt"
 	"testing"
 	"unsafe"
 )
@@ -119,7 +120,7 @@ func Test_json_marshal(t *testing.T) {
 		t.Logf("s is not nil slice, len(s) -> %d", len(s))
 	}
 	j0, _ := json.Marshal(s)
-	t.Logf(`s0 -> "%s"`, string(j0))
+	t.Logf(`string(j0) -> "%s"`, string(j0))
 
 	s = []int{}
 	if s == nil {
@@ -128,7 +129,7 @@ func Test_json_marshal(t *testing.T) {
 		t.Logf("s is not nil slice, len(s) -> %d", len(s))
 	}
 	j1, _ := json.Marshal(s)
-	t.Logf(`s -> "%s"`, string(j1))
+	t.Logf(`string(j1) -> "%s"`, string(j1))
 
 	s = nil
 	if s == nil {
@@ -137,7 +138,7 @@ func Test_json_marshal(t *testing.T) {
 		t.Logf("s is not nil slice, len(s) -> %d", len(s))
 	}
 	j2, _ := json.Marshal(s)
-	t.Logf(`s -> "%s"`, string(j2))
+	t.Logf(`string(j2) -> "%s"`, string(j2))
 }
 
 func Test_nil_slice(t *testing.T) {
@@ -175,4 +176,36 @@ func Test_slice_shrink(t *testing.T) {
 	// s = s[:6]
 	// t.Logf("s -> %v", s)
 	// panic: runtime error: slice bounds out of range [:6] with capacity 5 [recovered, repanicked]
+}
+
+// ループ変数もコピー
+func Test_range_slice_int(t *testing.T) {
+	var s = []int{1, 2, 3}
+	for i, e := range s {
+		e = 101 + i
+		s[i] = 1001 + i
+
+		t.Logf("&e, &s[%d] -> %p, %p", i, &e, &s[i])
+		t.Logf("e', s[%d]' -> %v, %v", i, e, s[i])
+	}
+}
+
+// ループ変数もコピー; 構造体
+func Test_range_slice_struct(t *testing.T) {
+	var s = []struct {
+		No    int
+		Value string
+	}{
+		{101, "A"},
+		{102, "B"},
+		{103, "C"},
+	}
+
+	for i, e := range s {
+		e.Value = fmt.Sprintf("%03d", i)
+		s[i].Value = fmt.Sprintf("%05dx", i)
+
+		t.Logf("&e, &s[%d] -> %p, %p", i, &e, &s[i])
+		t.Logf("e -> %v, s[%d] -> %v", e, i, s[i])
+	}
 }

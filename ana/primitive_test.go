@@ -16,6 +16,21 @@ func Test_int_and_pointer(t *testing.T) {
 	fmt.Printf("&p -> %p\n", &p) // 変数 p のアドレス
 }
 
+// ローカル変数へのポインタを返す関数
+func Test_return_pointer(t *testing.T) {
+	xp := locptr()
+	t.Logf("xp, *xp -> %p, %d", xp, *xp)
+	if xp == nil || *xp != 456 {
+		t.Errorf("*xp %d must be %d", *xp, 456)
+	}
+}
+
+func locptr() *int {
+	var x int
+	x = 456
+	return &x
+}
+
 // nilポインタ
 func Test_nil(t *testing.T) {
 	var p *int = nil

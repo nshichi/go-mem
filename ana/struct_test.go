@@ -23,6 +23,9 @@ type R struct {
 
 func Test_struct_size(t *testing.T) {
 	var r R
+	r.String = "abcdefghijklmnopqrstuvwxyz"
+	r.Slice = []string{"1", "2", "3", "4", "5"}
+
 	t.Logf("r         -> %p, %d", &r, unsafe.Sizeof(r))
 	t.Logf("r.Int     -> %p, %d", &r.Int, unsafe.Sizeof(r.Int))
 	t.Logf("r.Pointer -> %p, %d", &r.Pointer, unsafe.Sizeof(r.Pointer))
@@ -32,10 +35,9 @@ func Test_struct_size(t *testing.T) {
 	t.Logf("r.Time    -> %p, %d", &r.Time, unsafe.Sizeof(r.Time))
 }
 
-func Benchmark3(b *testing.B) {
-	b.Logf("%d bytes", unsafe.Sizeof(R{}))
+func Benchmark_struct_append(b *testing.B) {
 	for b.Loop() {
-		aa := make([]R, 0)
+		aa := make([]R, 0, 1_000)
 		for range 1_000 {
 			aa = append(aa, R{})
 		}
@@ -43,20 +45,14 @@ func Benchmark3(b *testing.B) {
 	}
 }
 
-func Test_show_nil(t *testing.T) {
-	r := SampleStruct{}
-	r.S = "abcdefghijklmnopqrstuvwxyz"
-	r.Slice = []int{1, 2, 3, 4, 5}
-	t.Logf("sizeof(r) = %d", unsafe.Sizeof(r))
-	t.Logf("sizeof(string) = %d", unsafe.Sizeof(r.S))
-	t.Logf("sizeof(int) = %d", unsafe.Sizeof(r.I))
-	t.Logf("sizeof(pointer) = %d", unsafe.Sizeof(r.P))
-	t.Logf("sizeof([10]int) = %d", unsafe.Sizeof(r.Array))
-	t.Logf("sizeof(slice) = %d", unsafe.Sizeof(r.Slice))
-	t.Logf("sizeof(time.Time) = %d", unsafe.Sizeof(r.Time))
-
-	var p *int = nil
-	t.Logf("%p", p)
+func Benchmark_pointer_append(b *testing.B) {
+	for b.Loop() {
+		aa := make([]*R, 0, 1_000)
+		for range 1_000 {
+			aa = append(aa, &R{})
+		}
+		_ = aa
+	}
 }
 
 func Test_struct_empty(t *testing.T) {
