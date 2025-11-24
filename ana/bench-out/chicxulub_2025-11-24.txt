@@ -1,0 +1,28 @@
+goos: darwin
+goarch: arm64
+pkg: go-mem/ana
+cpu: Apple M2
+Benchmark_mapS-8                             	      10	 106607396 ns/op	111623905 B/op	    8199 allocs/op
+Benchmark_mapI-8                             	      22	  53061966 ns/op	75493317 B/op	    8195 allocs/op
+Benchmark_mapX-8                             	      20	  60071069 ns/op	50378008 B/op	    8194 allocs/op
+Benchmark_string_append1-8                   	       1	3049389917 ns/op	50399870288 B/op	  102136 allocs/op
+--- BENCH: Benchmark_string_append1-8
+    string_append_test.go:27: 0x14000210000
+Benchmark_string_append_strings_Join-8       	     372	   3158334 ns/op	 9931122 B/op	      29 allocs/op
+Benchmark_string_append_bytes-8              	    2592	    498826 ns/op	 6249266 B/op	      33 allocs/op
+Benchmark_string_append_bytes_maxLength-8    	    8170	    146991 ns/op	 2015241 B/op	       2 allocs/op
+Benchmark_string_append_unsafe_String-8      	   10000	    112190 ns/op	 1007628 B/op	       1 allocs/op
+Benchmark_string_append_unsafe_Pointer-8     	    3999	    311414 ns/op	 1007628 B/op	       1 allocs/op
+Benchmark_string_append_bytes_Buffer-8       	    3393	    331041 ns/op	 2015247 B/op	       2 allocs/op
+Benchmark_string_append_strings_Builder-8    	    2818	    425857 ns/op	 1007630 B/op	       1 allocs/op
+Benchmark_string_append_strings_Builder0-8   	    1540	    772741 ns/op	 5241664 B/op	      32 allocs/op
+s1 -> 0x14000210000
+s2 -> 0x14000210000
+Benchmark_string_compare1-8                  	600843057	         1.951 ns/op	       0 B/op	       0 allocs/op
+s1 -> 0x14000210000
+s3 -> 0x14000306000
+Benchmark_string_compare2-8                  	   55222	     21618 ns/op	       0 B/op	       0 allocs/op
+Benchmark_struct_append-8                    	  114762	     11740 ns/op	  163840 B/op	       1 allocs/op
+Benchmark_pointer_append-8                   	   36948	     30094 ns/op	  160001 B/op	    1000 allocs/op
+PASS
+ok  	go-mem/ana	21.661s
