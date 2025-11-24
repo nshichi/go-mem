@@ -1,4 +1,6 @@
-TODAY=$(date +%Y-%m-%d)
-f=${HOSTNAME}_${TODAY}.txt
+
+D=$(date +%Y-%m-%d)
+H="${HOSTNAME%.local}"
+F="${H}_${D}.txt"
 cd ../ana/
-go test -bench . -benchmem -run=^$ >$f
+go test -bench . -benchmem -run=^$ >bench-out/$F

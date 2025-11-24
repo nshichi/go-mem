@@ -1,0 +1,28 @@
+goos: windows
+goarch: amd64
+pkg: go-mem/ana
+cpu: AMD Ryzen 7 7800X3D 8-Core Processor           
+Benchmark_mapS-16                              	      10	 104497320 ns/op	111589184 B/op	    8200 allocs/op
+Benchmark_mapI-16                              	      21	  52660838 ns/op	75493884 B/op	    8195 allocs/op
+Benchmark_mapX-16                              	      16	  72315675 ns/op	50392140 B/op	    8196 allocs/op
+Benchmark_string_append1-16                    	       1	3148093000 ns/op	50399847552 B/op	  101888 allocs/op
+--- BENCH: Benchmark_string_append1-16
+    string_append_test.go:27: 0xc000208000
+Benchmark_string_append_strings_Join-16        	     343	   3428136 ns/op	 9931140 B/op	      29 allocs/op
+Benchmark_string_append_bytes-16               	    2436	    447932 ns/op	 6249204 B/op	      33 allocs/op
+Benchmark_string_append_bytes_maxLength-16     	    8490	    170513 ns/op	 2015235 B/op	       2 allocs/op
+Benchmark_string_append_unsafe_String-16       	    9997	    106236 ns/op	 1007618 B/op	       1 allocs/op
+Benchmark_string_append_unsafe_Pointer-16      	    6415	    175719 ns/op	 1007617 B/op	       1 allocs/op
+Benchmark_string_append_bytes_Buffer-16        	    2683	    440292 ns/op	 2015238 B/op	       2 allocs/op
+Benchmark_string_append_strings_Builder-16     	    2707	    451360 ns/op	 1007620 B/op	       1 allocs/op
+Benchmark_string_append_strings_Builder0-16    	    1225	    999403 ns/op	 5241611 B/op	      32 allocs/op
+s1 -> 0xc000208000
+s2 -> 0xc000208000
+Benchmark_string_compare1-16                   	1000000000	         1.000 ns/op	       0 B/op	       0 allocs/op
+s1 -> 0xc000208000
+s3 -> 0xc0002fe000
+Benchmark_string_compare2-16                   	   76026	     15604 ns/op	       0 B/op	       0 allocs/op
+Benchmark_struct_append-16                     	   56601	     20821 ns/op	  163840 B/op	       1 allocs/op
+Benchmark_pointer_append-16                    	   34572	     33497 ns/op	  160000 B/op	    1000 allocs/op
+PASS
+ok  	go-mem/ana	21.380s
