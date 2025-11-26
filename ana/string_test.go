@@ -25,6 +25,14 @@ func Test_string(t *testing.T) {
 	fmt.Printf("w -> %p: \"%s\"\n", p3, w)
 	fmt.Printf("%p - %p -> %v\n", p3, p2, uintptr(p3)-uintptr(p2))
 
+	// var h2 = "hello"
+	// var w2 = "world"
+	// h2p := unsafe.Pointer(unsafe.StringData(h2))
+	// w2p := unsafe.Pointer(unsafe.StringData(w2))
+	// fmt.Printf("h -> %p: \"%s\"\n", h2p, h2)
+	// fmt.Printf("w -> %p: \"%s\"\n", w2p, w2)
+	// fmt.Printf("%p - %p -> %v\n", w2p, h2p, uintptr(w2p)-uintptr(h2p))
+
 	// s と同じメモリ (おそらく最適化による)
 	var s2 = "hello" + " " + "world"
 	fmt.Printf("s2 -> %p: \"%s\"\n", unsafe.StringData(s2), s2)

@@ -209,3 +209,11 @@ func Test_range_slice_struct(t *testing.T) {
 		t.Logf("e -> %v, s[%d] -> %v", e, i, s[i])
 	}
 }
+
+// func TestXxx(t *testing.T) {
+// 	s1 := []int{}
+// 	s2 := []int{}
+// 	if s1 == s2 {
+
+// 	}
+// }
