@@ -1,6 +1,7 @@
 package ana
 
 import (
+	"encoding/json"
 	"math/rand/v2"
 	"testing"
 	"unsafe"
@@ -8,10 +9,17 @@ import (
 
 func Test_map(t *testing.T) {
 	var m map[string]int
-	m = make(map[string]int)
-	m["a"] = 1
 
-	mp := unsafe.Pointer(&m)
+	if m == nil {
+		t.Logf("m is nil")
+	}
+	t.Logf("m -> %p", m)
+
+	bb, _ := json.Marshal(m)
+	t.Logf("json of m -> %s", string(bb))
+
+	m0 := make(map[string]int)
+	mp := unsafe.Pointer(&m0)
 	hmapPtr := (*unsafe.Pointer)(mp) // runtime.hmap
 	t.Logf("mp -> %p, *hmapPtr -> %p", mp, *hmapPtr)
 }
