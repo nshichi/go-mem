@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-var re_Benchmark = regexp.MustCompile(`^(Benchmark.*)-(\d+)\s+(\d+)\s+(.*) ns/op\s+(.*) B/op\s+(.*) allocs/op(.*)`)
+var re_Benchmark = regexp.MustCompile(`^Benchmark(.*)-(\d+)\s+(\d+)\s+(.*) ns/op\s+(.*) B/op\s+(.*) allocs/op(.*)`)
 
 type BenchLine struct {
 	FuncName    string

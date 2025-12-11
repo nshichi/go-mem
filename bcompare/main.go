@@ -44,7 +44,7 @@ func main() {
 			continue
 		}
 		bfiles[d.Name()] = bf
-		for k, _ := range bf {
+		for k := range bf {
 			fmap[k] = struct{}{}
 		}
 	}
@@ -59,13 +59,13 @@ func main() {
 }
 
 func printComparing(bfiles map[string]map[string]*bench.BenchLine, fmap map[string]struct{}) {
-	fmt.Printf("%s", "host")
+	fmt.Printf("%-8s ", "machine")
 	for fname := range fmap {
 		fmt.Printf("%8s ", fname)
 	}
 
 	for file, bf := range bfiles {
-		fmt.Printf("%8s ", file)
+		fmt.Printf("%-8s ", file[:8])
 		for fname := range fmap {
 			if b, ok := bf[fname]; ok {
 				fmt.Printf("%f ", b.NsPerOp)
