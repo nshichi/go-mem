@@ -217,3 +217,11 @@ func Test_range_slice_struct(t *testing.T) {
 
 // 	}
 // }
+
+// func Test_slice_compare(t *testing.T) {
+// 	var s1 []int
+// 	var s2 []int
+// 	if s1 == s2 {
+// 		t.Logf("")
+// 	}
+// }

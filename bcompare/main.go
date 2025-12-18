@@ -1,10 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"go-mem/internal/bench"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 // BenchmarkResult は単一のベンチマークの結果を保持します。
@@ -58,23 +60,35 @@ func main() {
 	printComparing(bfiles, fmap)
 }
 
-func printComparing(bfiles map[string]map[string]*bench.BenchLine, fmap map[string]struct{}) {
-	fmt.Printf("%-8s ", "machine")
-	for fname := range fmap {
-		fmt.Printf("%8s ", fname)
+func printComparing(bfiles map[string]map[string]*bench.BenchLine, fmap map[string]struct{}) error {
+	o, err := os.Create("benchmark.csv")
+	if err != nil {
+		panic(err)
 	}
+	defer o.Close()
+
+	wr := bufio.NewWriter(o)
+
+	fmt.Fprintf(wr, "%s,", "machine")
+	for fname := range fmap {
+		fmt.Fprintf(wr, "%s,", fname)
+	}
+	fmt.Fprintf(wr, "\n")
 
 	for file, bf := range bfiles {
-		fmt.Printf("%-8s ", file[:8])
+		ss := strings.Split(file, "_")
+		fmt.Fprintf(wr, "%s,", ss[0])
 		for fname := range fmap {
 			if b, ok := bf[fname]; ok {
-				fmt.Printf("%f ", b.NsPerOp)
+				fmt.Fprintf(wr, "%f,", b.NsPerOp)
 			} else {
-				fmt.Printf(" ")
+				fmt.Fprintf(wr, ",")
 			}
 		}
-		fmt.Println()
+		fmt.Fprintf(wr, "\n")
 	}
+
+	return wr.Flush()
 }
 
 // printComparison は集計された結果をテーブル形式で出力します。
