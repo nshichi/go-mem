@@ -37,6 +37,10 @@ func Test_string(t *testing.T) {
 	var s2 = "hello" + " " + "world"
 	fmt.Printf("s2 -> %p: \"%s\"\n", unsafe.StringData(s2), s2)
 
+	// 空文字列
+	var s0 = ""
+	fmt.Printf("s0 -> %p: \"%s\"\n", unsafe.StringData(s0), s0)
+
 	// s と別メモリでおなじ値
 	var s3 = strings.Join([]string{"hello", " ", "world"}, "")
 	fmt.Printf("s5 -> %p: \"%s\"\n", unsafe.StringData(s3), s3)
